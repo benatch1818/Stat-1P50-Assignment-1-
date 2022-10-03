@@ -1,0 +1,77 @@
+#Q1
+i= 1 #define int as 1 so formula works 
+while i < 10**8:#create loop statement that stops when total is 100,000,000
+    i= i*(i+1)#formula to multiply consecutive numbers 
+    print(i)
+
+#Q2
+def strings_to_dict(list_of_strings):#define function
+    dict_of_lengths={}#create an open dictonary 
+    for string in list_of_strings:#create loop
+        dict_of_lengths[string]=(len(string))#key is string, value is the length of the string 
+    return dict_of_lengths#return into dict
+strings_to_dict(["apple", "banana", "cherry"])#test
+
+#Q3
+def x_to_y(x,y):#define function
+    return x**y #return x^y
+list = [[5,6], [5,7], [4,2], [3,6], [9,8], [1,3], [9,3], [7,1], [5,4], [2,7], [9,1], [9,3], [2,5]]#list
+for pair in list:#create loop
+    print(x_to_y(pair[0],pair[1]))#use x as x and square it by y
+    
+    #Q4
+from random import random #import random
+
+l = [random() for i in range(20)] #define list 
+x = random() #define random value from 0 to 1
+r = sorted(l) #sort list 
+print(r) #print sorted list 
+print(x) #print random value
+
+#Q5
+import math #import package
+def calc_area_of_circle(radii_1, radii_2): #define function
+    area_circle1 = math.pi*radii_1**2 #formula for first circle
+    area_circle2 = math.pi*radii_2**2 #formula for second circle 
+    
+       
+    if area_circle2 > area_circle1: #if statement to tell python to describe the large circle as the large and vice versa 
+        larger_circle = area_circle2 
+        smaller_circle = area_circle1
+    else:
+        larger_circle = area_circle1
+        smaller_circle = area_circle2
+    percentage = smaller_circle/larger_circle*100 #calculate percentage of small circle compared to large 
+    return percentage 
+print(calc_area_of_circle(20, 22))
+
+#Q6
+def element_return_proportion(proportions):#define function
+    dict_of_prop={}#initialize function
+    for number in proportions:#begin loop through list
+        dict_of_prop[number]=(sum(i <= number for i in proportions)/len(proportions)*100)#calculate setting element as key and value as proportion
+    return dict_of_prop#return list
+print (element_return_proportion([1, 2, 3, 2, 3, 4, 5, 5, 5, 2]))
+
+#Q7 Bonus 
+time = int(input("Input time in seconds: "))
+hours = time // 3600
+time = time%3600
+minutes = time // 60
+time = time%60
+seconds = time
+if hours>=12 : 
+    period="PM"
+else:
+    period="AM"
+if hours> 24:
+    print ("NO! NO! NO!")
+
+else:
+    print(hours, minutes, seconds, period)
+    
+    #Q8
+import pandas as pd
+data= {"A":[1,2,2,1], "B":[3.1,4.2,1.5,6.3],"C":[800,150,400,210]}
+df= pd.DataFrame(data)
+print(df)
