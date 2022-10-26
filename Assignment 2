@@ -1,0 +1,112 @@
+import pandas as pds #set up data on macbook
+import os 
+working_directory= os.getcwd()
+print (working_directory)
+path_1 = working_directory + '/Dropbox/STAT 1P50/student.csv'
+path_2 = working_directory + '/Dropbox/STAT 1P50/crime.csv'
+path_3 = working_directory + '/Dropbox/STAT 1P50/sample_file.txt'
+df_bonus_1= pds.read_csv(path_1)
+df_bonus_2= pds.read_csv(path_2)
+df_bonus_3= pds.read_csv(path_3)
+print(df_bonus_1)#check if it works 
+print(df_bonus_2)
+print(df_bonus_3)
+
+#Q1
+Result_FBS = int(input("Enter fasting blood sugar test result in mg/dl: ")) #Get input from user
+if Result_FBS <= 99:#determine range 
+    print("Your fasting blood sugar is within the normal range.") 
+else:
+    print("Your fasting blood sugar is higher than the normal range.")
+    from random import sample 
+
+
+#Q2
+for i in range(0,100):
+
+    a = sample(['1','2','3'],1)
+    b = sample(['1','2','3'],1)
+    
+    file_a = open(file='file1.txt', mode='a') 
+    file_b = open(file='file2.txt', mode='a')
+
+    file_a.write('\n'+a[0])
+    file_b.write('\n'+b[0])
+    
+file_a.close()
+file_b.close()
+
+file_a = open(file='file1.txt', mode='r')#open file a and b 
+file_b = open(file='file2.txt', mode='r')
+#loop through file a and b reading line by line and checking if values are the same
+for line_a in file_a:
+    line_b = file_b.readline()
+    if line_a == line_b and line_a.strip().isnumeric() and line_b.strip().isnumeric():
+        print("Success!",line_a)
+    line_a = file_a.readline()
+    line_b = file_b.readline()
+file_a.close()
+file_b.close()#close both files
+
+#Q3
+file = open('/Users/benatchison/Dropbox/STAT 1P50/sample_file.txt', 'r') #call upon data
+read = file.readline() #initialize first line 
+q_counter = 0 #start q counter at 0
+while read:#while file is being read check if a line has a 'q' and count
+    if 'q' in read:
+        q_counter += 1
+    read = file.readline()
+print("The amount of lines that contain the letter 'q':", q_counter)
+
+
+#Q4
+import pandas as pd #import pandas
+import matplotlib.pyplot as plt #import matplot 
+
+data = pd.read_csv('/Users/benatchison/Dropbox/STAT 1P50/student.csv') #call upon data
+data = data[['internet', 'grade']] #define X and Y
+data_A = data.groupby('internet').mean().reset_index()#calculate mean value 
+
+x = range(len(data_A['internet']))#set x range
+label = data_A['internet']#label
+
+plt.bar(x, data_A['grade'])#create bar charts
+plt.xticks(x, label)
+plt.show()
+
+
+#Q5
+import pandas as pd #import pandas
+import matplotlib.pyplot as plt #import matplot
+
+data = pd.read_csv('/Users/benatchison/Dropbox/STAT 1P50/student.csv') #call upon data
+data = data[['studytime', 'grade']] #define x and y 
+data_A = data.groupby('studytime').mean().reset_index() #calculate mean value
+
+plt.plot(data_A['studytime'],data_A['grade'])#plot data
+plt.show()
+
+
+#Q6
+import pandas as pd #import pandas 
+import numpy as np #import numpy 
+import matplotlib.pyplot as plt #import matplot 
+from sklearn.preprocessing import StandardScaler #import StandardScaler
+
+crimefiles = pd.read_csv('/Users/benatchison/Dropbox/STAT 1P50/crime.csv') #call upon file and read file
+crimes = crimefiles['ViolentCrimesPerPop'] #get y values 
+crimelist = np.array(crimes).reshape(-1,1)#convert to correct format
+population_under_poverty_line = crimefiles['PctPopUnderPov'] #get x values
+population_under_poverty_list = np.array(population_under_poverty_line).reshape(-1,1)#convert to correct format
+
+
+
+Scaler = StandardScaler()#initialize scalar
+population_under_poverty_scaled = Scaler.fit_transform(population_under_poverty_list)#Scale values
+crime_scaled = Scaler.fit_transform(crimelist)#Scale values
+
+x = population_under_poverty_scaled #Define X 
+y = crime_scaled #Define Y
+plt.scatter(x, y, label = 'Crime in relation to poverty', color = 'red') #Create scatterplot
+plt.legend() #include legend
+plt.show() 
