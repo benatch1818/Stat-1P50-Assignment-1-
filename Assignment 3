@@ -1,0 +1,117 @@
+import pandas as pds #set up data on macbook
+import os 
+working_directory= os.getcwd()
+print (working_directory)
+
+path_1 = '/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/email.csv'
+path_2 = '/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/crime.csv'
+path_3 = '/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/kidney_disease.csv'
+df_bonus_1= pds.read_csv(path_1)
+df_bonus_2= pds.read_csv(path_2)
+df_bonus_3= pds.read_csv(path_3)
+print(df_bonus_1)
+print(df_bonus_2)
+print(df_bonus_3) #check data
+
+#Question 1
+from sklearn.linear_model import LinearRegression
+import pandas as pd
+import numpy as np
+data = pd.read_csv('/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/crime.csv') #import packages and data
+
+reg = LinearRegression()
+model = LinearRegression(fit_intercept = False)
+model1= LinearRegression(fit_intercept = False) #create linear regression models 
+
+y = np.array(data['ViolentCrimesPerPop']) #label y
+X= np.array(data['PctBSorMore']) #label x
+
+trained_model = model.fit(X.reshape(-1,1),y) 
+c=np.array(data['ViolentCrimesPerPop']) #acquire data for 'f' 
+f=np.array(data['PctUnemployed']) #acquire data for 'c'
+
+trained_model1 = model1.fit(f.reshape(-1,1),c) #create trained model
+
+print(trained_model.coef_) 
+print(trained_model.intercept_) #beta= 0.89, for every 1 unit increase of a bachelor degree there is a unit increase of 0.89 violent crimes  
+
+print(trained_model1.coef_) 
+print(trained_model1.intercept_) #beta= 0.96, for every 1 unit increase of unemployment there is a unit increase of 0.96 violent crimes  
+
+#question 2
+from sklearn.linear_model import LinearRegression
+import pandas as pd
+import numpy as np #import paxkages
+
+data = pd.read_csv('/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/crime.csv') #upload data
+x = np.array(data['ViolentCrimesPerPop']) #set x 
+y = np.array(data[['PctPopUnderPov','PctUnemployed','PolicPerPop','Pcthomeless','PctBSorMore']]) #set y 
+
+trained_model2 = model.fit(f.reshape(-1,1),y) #create trained model
+print(trained_model2.coef_) #find betas for each variable 
+print(trained_model2.intercept_) 
+
+#Question 3
+import pandas as pd
+import numpy as np
+from sklearn.linear_model import LogisticRegression
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split #import packages 
+
+kidneydata= pd.read_csv('/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/kidney_disease.csv') #upload data
+
+
+X = np.array(kidneydata.iloc[:,0:8]) #clean/balance data 
+y = np.array(kidneydata['ckd'])#set y 
+
+X_train, X_test, y_train, y_test = train_test_split(X ,y ,test_size = 0.3, random_state = 1)#split data into respective sets 
+logistic_regression = LogisticRegression() #run logistic regression
+logistic_regression.fit(X_train ,y_train) #fit trained model to data 
+
+y_predicted = logistic_regression.predict(X_test) #create prediction 
+y_predicted = pd.DataFrame(y_predicted, columns = ['predicted'])
+
+df = data.copy()
+df['predictions'] = y_predicted
+
+
+print(df)
+
+#Question 4 
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression as lm
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score, f1_score #import packages 
+
+kidneydata= pd.read_csv('/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/kidney_disease.csv') #upload data
+
+X_train, X_test, y_train, y_test = train_test_split('bp', 'ckd', test_size = 0.3) #seperate data
+
+log_model = sklearn.linear_model.LogisticRegression() #create logistic model
+
+trained_logmodel = logistic_model.fit(X_train, y_train) #create trained logistic model
+
+y_predicted = logistic__model.predict(X_test) #create predictions
+
+print('accuracy:', accuracy_score(y_test, y_predicted))
+print('f1 score:', f1_score(y_test, y_predicted))
+
+#Question 5
+def get_frequency(input_string): 
+    list_of_words = input_string.split(' ')
+    dict_of_frequencies = {}
+
+    for word in list_of_words:
+        
+        if word in dict_of_frequencies.keys(): 
+            dict_of_frequencies[word]// = dict_of_frequencies[word] + 1
+            
+        else:
+            dict_of_frequencies[word] = 1
+            
+    return(word,dict_of_frequencies)
+    
+    
+get_frequency('Data Science') #divide by length 
+
+
