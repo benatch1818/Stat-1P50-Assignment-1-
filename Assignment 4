@@ -1,0 +1,121 @@
+#Question 1
+import pandas as pd 
+import matplotlib.pyplot as plt
+from sklearn import tree 
+from sklearn.tree import DecisionTreeClassifier  
+from sklearn.model_selection import train_test_split 
+from sklearn.metrics import accuracy_score 
+from sklearn import datasets 
+
+
+data = pd.read_csv('/Users/benatchison/Dropbox/My Mac (Ben’s MacBook Air)/Downloads/kidney_disease.csv') 
+
+X, y = data.drop(['ckd'],axis=1), data[['ckd']] 
+
+feature_names = list(X.columns)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.33) #Split data make test size 33%
+Model1 = DecisionTreeClassifier(criterion = 'entropy') # Define the model criteria 
+Model1 = model.fit(X_train, y_train) # Train the model 
+
+
+fig = plt.figure(figsize=(40,20)) 
+fig = tree.plot_tree(Model1, feature_names=feature_names,
+class_names=['0','1'], filled=True)
+plt.savefig('tree.pdf') 
+
+
+#Persons A & B both dont have kidney disease 
+
+
+#Question 2 
+
+from sklearn.preprocessing import MinMaxScaler 
+from sklearn.datasets import load_diabetes 
+from sklearn.model_selection import train_test_split 
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense, InputLayer 
+
+
+diabetes = load_diabetes()
+X = diabetes.data 
+y = diabetes.target 
+
+
+scaler = MinMaxScaler()
+
+y = y.reshape(-1,1) 
+y = scaler.fit_transform(y) 
+
+X_train, X_test, y_train, y_test = train_test_split(X, y,
+test_size=0.3) #Split data make test size 30%
+
+Model_1 = Sequential() #Define the model
+
+Layer_1 = InputLayer(input_shape=(2,)) #Input layer define shape and size
+Model_1.add(Layer_1) 
+Layer_2 = Dense(8) #Define second layer as the hidden layer and define its shape and size
+Model_1.add(Layer_2) 
+
+Layer_3 = Dense(1, activation='relu') #Initiate relu function as output layer 
+Model_1.add(Layer_3) 
+
+Model_1.compile(loss='binary_crossentropy') 
+
+Model_1.fit(X_train, y_train, epochs=10) 
+
+Model_2 = Sequential() #Deinfe the second model 
+
+Layer_1 = InputLayer(input_shape=(2,)) #Input layer define shape and size
+Model_2.add(Layer_1) 
+Layer_2 = Dense(8) #Define second layer as the hidden layer and define its shape and size
+Model_2.add(Layer_2) 
+
+Layer_3 = Dense(1, activation=None) #Output layer
+Model_2.add(Layer_3)  
+
+Model_2.compile(loss='binary_crossentropy') 
+
+#Question 3 
+
+from tensorflow.keras.datasets import mnist
+import tensorflow as tf 
+from tensorflow.keras.models import Sequential 
+from tensorflow.keras.layers import Dense, InputLayer 
+from tensorflow.keras.utils import to_categorical 
+(X_train, y_train), (X_test, y_test) = mnist.load_data()
+
+number_of_training_instances = X_train.shape[0]
+number_of_testing_instances = X_test.shape[0]
+
+
+X_train = X_train.reshape((number_of_training_instances, 28*28))
+X_test = X_test.reshape((number_of_testing_instances, 28*28))
+
+
+
+tf.random.set_seed(1)
+Model_1 = Sequential() #Define the model
+
+Layer_1 = InputLayer(input_shape=(28*28)) 
+Model_1.add(Layer_1) 
+Layer_2 = Dense(28*28/2) #Define second layer as the hidden layer and define its shape and size
+Model_1.add(Layer_2) 
+Layer_3 = Dense(10, activation='softmax') #Initiate softmax function as output layer 
+Model_1.add(Layer_3) 
+
+y_train = to_categorical(y_train)
+y_test = to_categorical(y_test)
+
+
+Model_1.compile(loss = 'categorical_crossentropy', metrics = 
+['accuracy'])
+X_train.shape
+
+Model_1.fit(X_train, y_train, epochs = 10)
+Predicted_Y= Model_1.predict(X_test) 
+Predicted_Y
+Performance = Model_1.evaluate(X_test, y_test) 
+print(Performance[1]) #Print
+Model_1.save('digits_model.h5') #Save the model in 'digits_model.h5'
+
